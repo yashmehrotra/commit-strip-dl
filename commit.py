@@ -66,7 +66,7 @@ def create_dir(year, month):
 
 def download(year, month):
     
-    for i in range(4,100):
+    for i in range(1,100):
         url = BASE_URL.format(year,month,i)
         pdb.set_trace()
         r = requests.get(url)
