@@ -5,6 +5,7 @@ import re
 from lxml import html
 import pdb
 import os
+import sys
 
 BASE_URL = 'http://www.commitstrip.com/en/{0}/{1}/page/{2}'
 
@@ -59,30 +60,47 @@ def create_dir(year, month):
     }
 
     dir_name = "{0} {1}".format(month_dict[str(month)],year)
-    os.mkdir(dir_name)
+    
+    if not os.path.exists(dir_name):
+        os.mkdir(dir_name)
+    
     os.chdir(dir_name)
 
-    download(year,month)
+    download(year,month, month_dict[str(month)])
 
-def download(year, month):
+def download(year, month, month_full):
     
     for i in range(1,100):
         url = BASE_URL.format(year,month,i)
-        pdb.set_trace()
         r = requests.get(url)
+        
         text = r.text
         tree = html.fromstring(text)
-        
+        #pdb.set_trace()
+         
         try:
-            pdb.set_trace()
-            img_url = tree.xpath('//div[@class="entry-content"]/p/img/@src')[0]
+
+            month_list = tree.xpath('//ul[@id="collapsArch-{0}:3"]/li[@class="collapsing archives"]/a/@title'.format(year))
+            count_list = tree.xpath('//ul[@id="collapsArch-{0}:3"]/li[@class="collapsing archives"]/a/span[@class="monthCount"]/text()'.format(year))
+            for_an_error = tree.xpath('//ul[@id="collapsArch-{0}:3"]/li[@class="collapsing archives"]/a/span[@class="monthCount"]/text()'.format(year))[0]
+            
+            cur_month = month_list.index(month_full)
+            cur_count = count_list[cur_month]
+
+            cur_count = cur_count[1:-1]
+            
+            if tree.xpath('//div[@class="entry-content"]/p/img'):
+                img_url = tree.xpath('//div[@class="entry-content"]/p/img/@src')[0]
+            else:
+                img_url = tree.xpath('//div[@class="entry-content"]/p/a/img/@src')[0]
             img_url = fixurl(img_url)
             title = tree.xpath( '//h1[@class="entry-title"]/a/text()')[0].encode('utf-8').decode('ascii','ignore')
-            print 'Downloading {0}'.format(title)
+            print 'Downloading ({1} of {2}) {0}'.format(title,i,cur_count)
             urllib.urlretrieve(img_url,title+'.jpg')
         
         except IndexError:
             
+            print '{0} images downloaded'.format(i-1)
             print 'Enough for this month'
             break
         
@@ -93,4 +111,7 @@ def download(year, month):
             break
 
 if __name__ == "__main__":
-    create_dir(2014,11)
+    
+    year = sys.argv[1]
+    month = sys.argv[2]
+    create_dir(year,month)
