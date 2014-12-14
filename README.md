@@ -6,9 +6,9 @@ Download all your commit strip comics
 How to use - 
 
 ##Install Dependencies
-..1.`sudo apt-get install libxml2-dev libxslt-dev python-dev`
-..2.`pip install lxml`
-..3.`pip install requests`
+1.`sudo apt-get install libxml2-dev libxslt-dev python-dev`
+2.`pip install lxml`
+3.`pip install requests`
 #Run
 `python commit.py [year] [month]`
 
