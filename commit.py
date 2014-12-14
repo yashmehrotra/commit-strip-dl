@@ -91,8 +91,11 @@ def download(year, month, month_full):
             
             if tree.xpath('//div[@class="entry-content"]/p/img'):
                 img_url = tree.xpath('//div[@class="entry-content"]/p/img/@src')[0]
-            else:
+            elif tree.xpath('//div[@class="entry-content"]/p/a/img/@src'):
                 img_url = tree.xpath('//div[@class="entry-content"]/p/a/img/@src')[0]
+            else:
+                continue
+
             img_url = fixurl(img_url)
             title = tree.xpath( '//h1[@class="entry-title"]/a/text()')[0].encode('utf-8').decode('ascii','ignore')
             print 'Downloading ({1} of {2}) {0}'.format(title,i,cur_count)
