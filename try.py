@@ -1,2 +1,3 @@
 this = 23
 string = 'aaaaaaaaaaaaaaaasddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddaaaaaaaaaaaaad'
+stng = 'aaaaaaaaaaaaaaaasddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddaaaaaaaaaaaaad'
