@@ -1,4 +1,0 @@
--   repo: git@github.com:yashmehrotra/commit-strip-dl.git
-    sha: f30f08b7c02bc4cbe614de32ec042f5e95722357
-    hooks:
-    -   id: flake8
